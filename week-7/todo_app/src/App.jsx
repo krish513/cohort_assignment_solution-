@@ -1,10 +1,9 @@
 import { useState } from "react"
-import { RecoilRoot, useRecoilState, useRecoilValue } from "recoil";
-import { todosAtom } from "./store/atom/todos";
+import { RecoilRoot, selector, useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { filter, filterAtom, todosAtom } from "./store/atom/todos";
 
 function App() {
   
-
   return (
     <div>
       <RecoilRoot>
@@ -15,10 +14,11 @@ function App() {
 }
 
 function Todos(){
-  const todos = useRecoilValue(todosAtom)
+  const todos = useRecoilValue(filter)
   return <div>
     <CreateTodos/>
-    {todos.map((todo) => <div>
+    <FindTodo/>
+    { todos.map((todo) => <div>
       <h2>{todo.title}</h2>
       <h3>{todo.description}</h3>
     </div> )}
@@ -26,7 +26,7 @@ function Todos(){
 }
 
 function CreateTodos(){
-  const [todos, setTodos] = useRecoilState(todosAtom)
+  const [todos, setTodos] = useRecoilState(todosAtom) 
   const [title, setTitle] = useState("")
   const [description, setDescription] = useState("")
   
@@ -45,6 +45,22 @@ function CreateTodos(){
     onChange={(e)=> setDescription(e.target.value)}
     ></input>
     <button onClick={addTodoHandler}>Add Todo</button>
+  </div>
+}
+
+
+function FindTodo(){
+  const setFilter = useSetRecoilState(filterAtom)
+
+  function filterHandler(e){
+    setFilter((pre) => e.target.value)
+  }
+
+  return <div>
+    <input type="text" placeholder="find todo"
+      onChange={filterHandler}
+    >
+    </input>
   </div>
 }
 
