@@ -8,9 +8,16 @@ function App() {
   
   return (
     <RecoilRoot>
-      <Login/>
+      <Display/>
     </RecoilRoot>
   )
+}
+
+function Display(){
+  const isLogin = useRecoilValue(loginAtom)
+  return <div>
+    {isLogin ? <div>Logout</div> : <Login/>}
+  </div>
 }
 
 export default App
