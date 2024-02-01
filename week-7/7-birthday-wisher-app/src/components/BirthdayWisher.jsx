@@ -15,6 +15,6 @@ export default function BirthdayWisher(){
         {currentCard == 0 && <BirthdayCard1 nextHandler ={nextHandler}/>}
         {currentCard == 1 && <BirthdayCard2 nextHandler ={nextHandler}/>}
         {currentCard == 2 && <BirthdayCard3 nextHandler ={nextHandler}/>}
-        <button onClick={nextHandler}>Next</button>
+        
     </div>
 }
