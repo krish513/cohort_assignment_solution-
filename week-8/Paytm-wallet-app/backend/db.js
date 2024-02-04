@@ -3,9 +3,10 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 const mongoose = require("mongoose");
+const { number } = require("zod");
 mongoose.connect(process.env.DB_URL)
 
-const userShema = mongoose.Schema({
+const userShema = new mongoose.Schema({
     firstName : {
         type : String,
         required : true,
@@ -31,11 +32,25 @@ const userShema = mongoose.Schema({
         type : String,
         required : true,
         minLength : 6,
+    },
+})
+
+const accountSchema = new mongoose.Schema({
+    userId : {
+        type : mongoose.Schema.Types.ObjectId,
+        ref : "User",
+        required : true
+    },
+    balance : {
+        type : Number,
+        required : true
     }
 })
 
 const User = mongoose.model("User", userShema)
+const Account = mongoose.model("Account", accountSchema)
 
 module.exports = {
-    User
+    User,
+    Account
 }
