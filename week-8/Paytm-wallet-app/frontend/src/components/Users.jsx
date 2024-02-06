@@ -1,5 +1,6 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
 
 export default function Users(){
 
@@ -7,7 +8,11 @@ export default function Users(){
     const [filter, setFilter] = useState("")
 
     useEffect(()=>{
-        axios.get("http://localhost:3000/api/v1/user/bulk?filter="+filter)
+        axios.get("http://localhost:3000/api/v1/user/bulk?filter="+filter,{
+            headers: {
+                Authorization: "Bearer "+ localStorage.getItem("token")
+            }
+        })
             .then(response=>{
                 setUsers(response.data.user)
             })
@@ -23,6 +28,7 @@ export default function Users(){
 }
 
 function User({user}){
+    const navigate = useNavigate();
     return <div className="flex justify-between items-center mt-3">
         <div className="flex gap-2 items-center">
             <div className=" bg-slate-300 rounded-full pt-1 pb-1 pl-[10px] pr-[10px]">
@@ -32,7 +38,9 @@ function User({user}){
                 {user.firstName} {user.lastName}
             </div>
         </div>
-        <button className=" bg-black text-white p-1 pl-2 pr-2 rounded-md">
+        <button onClick={(e)=>{
+            navigate("/send?id=" + user.id + "&name=" + user.firstName )
+        }} className=" bg-black text-white p-1 pl-2 pr-2 rounded-md">
             Send Money
         </button>
     </div>

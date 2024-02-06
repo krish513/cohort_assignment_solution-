@@ -1,5 +1,5 @@
 
-export default function AppBar(){
+export default function AppBar({name}){
     return <div className="flex border p-2 rounded-md justify-between items-center"> 
         <div>
             Paytm App
@@ -9,7 +9,7 @@ export default function AppBar(){
                 Hellow
             </div>
             <div className=" bg-slate-300 rounded-full pt-1 pb-1 pl-[10px] pr-[10px]">
-                U
+                {name[0]}
             </div>
         </div>
     </div>

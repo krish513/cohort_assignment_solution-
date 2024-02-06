@@ -75,6 +75,7 @@ router.post("/signin", async(req,res)=>{
         const userId = user._id
         const token = jwt.sign({userId},JWT_SECRET) // userId args must be sent as an object
         res.json({
+            firstName : user.firstName,
             msg : "Login Successfull",
             token
         })
@@ -107,7 +108,7 @@ router.put("/", authMiddleware, async(req,res)=>{
 })
 
 // serach user for payment
-router.get("/bulk", async(req,res)=>{
+router.get("/bulk", authMiddleware, async(req,res)=>{
    const filter = req.query.filter || "";
    console.log(filter)
 

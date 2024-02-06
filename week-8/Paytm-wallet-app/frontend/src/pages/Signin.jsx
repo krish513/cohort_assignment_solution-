@@ -25,9 +25,11 @@ export default function Signin(){
                 password
             })
             const token = response.data.token;
-            localStorage.setItem("token",`Bearer ${token}`)
+            const name = response.data.firstName;
+            localStorage.setItem("token",token)
             alert(response.data.msg)
-            navigate("/dashboard")
+            navigate("/dashboard?name="+name)
+            console.log(name)
         }
         catch(err){
             alert(err.response.data.msg);
