@@ -25,7 +25,7 @@ export default function Signin(){
                 password
             })
             const token = response.data.token;
-            localStorage.setItem("token",token)
+            localStorage.setItem("token",`Bearer ${token}`)
             alert(response.data.msg)
             navigate("/dashboard")
         }

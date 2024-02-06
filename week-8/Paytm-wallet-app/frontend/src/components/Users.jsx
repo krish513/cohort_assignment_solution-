@@ -1,17 +1,22 @@
-import { useState } from "react"
+import axios from "axios"
+import { useEffect, useState } from "react"
 
 export default function Users(){
 
-    const [users, setUsers] = useState([{
-        firstName : "Krishna",
-        lastName : "Sarma",
-        id : 1
-    }])
+    const [users, setUsers] = useState([])
+    const [filter, setFilter] = useState("")
+
+    useEffect(()=>{
+        axios.get("http://localhost:3000/api/v1/user/bulk?filter="+filter)
+            .then(response=>{
+                setUsers(response.data.user)
+            })
+    },[filter])
 
     return <div className=" p-5">
         <div className="flex flex-col gap-1">
             <p>Users</p>
-            <input className="border rounded-md p-1" type="text" placeholder="Search user"/>
+            <input onChange={(e)=>setFilter(e.target.value)} className="border rounded-md p-1" type="text" placeholder="Search user"/>
         </div>
         {users.map(user=><User user = {user}/>)}
     </div>

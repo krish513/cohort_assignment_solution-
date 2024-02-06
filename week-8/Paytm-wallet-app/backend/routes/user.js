@@ -107,24 +107,29 @@ router.put("/", authMiddleware, async(req,res)=>{
 })
 
 // serach user for payment
-router.get("/bulk", authMiddleware, async(req,res)=>{
-   const filter = req.query.filter || " ";
+router.get("/bulk", async(req,res)=>{
+   const filter = req.query.filter || "";
    console.log(filter)
 
-   let query = {};
+//    let query = {};
 
-   if(filter.trim() !== " "){
-    query = {
-        $or : [
-            {firstName : {"$regex" : filter, "$options": "i" }}, // "$options": "i"  => to resolve query params (filter) case insensitive issue  
-            {lastName : {"$regex" : filter, "$options": "i" }},
-        ]
-    }
-   }
+//    if(filter.trim() !== " "){
+//     query = {
+//         $or : [
+//             {firstName : {"$regex" : filter, "$options": "i" }}, // "$options": "i"  => to resolve query params (filter) case insensitive issue  
+//             {lastName : {"$regex" : filter, "$options": "i" }},
+//         ]
+//     }
+//    }
 
-   console.log(query)
+//    console.log(query)
 
-   const users = await User.find(query)
+   const users = await User.find({
+    $or : [
+        {firstName : {"$regex" : filter, "$options": "i" }}, // "$options": "i"  => to resolve query params (filter) case insensitive issue  
+        {lastName : {"$regex" : filter, "$options": "i" }},
+    ]
+   })
    console.log(users)
    res.json({
     user: users.map((user)=>({
